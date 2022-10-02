@@ -1,13 +1,10 @@
 import FormLogin from "./components/formLogin";
-import { Button } from "@mui/material";
-import { Link } from "react-router-dom";
-import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import { LoginRequest } from "./components/formLogin/formLogin.types";
 import { useState } from "react";
-import { LoginApi } from "../../api/login.api";
+import { UserApi } from "../../api/user.api";
 
 export default function LoginPage() {
-  const loginApi = new LoginApi();
+  const userApi = new UserApi();
 
   const [loginObj, setLoginObj] = useState<LoginRequest>({
     login: "",
@@ -15,7 +12,7 @@ export default function LoginPage() {
   });
 
   const sendRequest = () => {
-    loginApi.login(loginObj).then((response) => {
+    userApi.login(loginObj).then((response) => {
       console.log(response);
     })
   };

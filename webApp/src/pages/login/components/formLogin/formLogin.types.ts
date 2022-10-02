@@ -12,7 +12,7 @@ export interface LoginResponse {
 }
 
 export interface FormLoginTypes {
-  loginObj: any;
+  loginObj: LoginRequest;
   setLoginObj: React.Dispatch<React.SetStateAction<LoginRequest>>;
   login: any;
 }

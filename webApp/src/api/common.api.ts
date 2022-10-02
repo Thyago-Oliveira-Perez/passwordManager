@@ -12,7 +12,7 @@ export class CommonApi {
     return Promise.reject(error.response)
   }
 
-  protected async _login<T>(model: T): Promise<T> {
+  protected async _post<T, U>(model: T): Promise<U> {
     try {
       return await this.axiosClient.post(`${this.url}`, model);
     } catch (error: any) {
