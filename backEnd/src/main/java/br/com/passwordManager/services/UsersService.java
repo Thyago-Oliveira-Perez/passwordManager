@@ -25,4 +25,8 @@ public class UsersService {
         UUID userId = this.tokenService.getUserId(token.substring(7, token.length()));
         return this.usersRepository.findAllUserPassWords(userId, pageable);
     }
+
+    public String getUserNameById(UUID userId){
+        return this.usersRepository.getNameById(userId);
+    }
 }

@@ -2,12 +2,14 @@ package br.com.passwordManager.configurations.security.models;
 
 public class Token {
 
-    public String token;
+    public String Token;
     //tipo de autenticação = Bearer
     public String AuthenticationType = "Bearer";
 
-    public Token(String token) {
-        this.token = token;
+    public String UserName;
+    public Token(String token, String userName) {
+        this.Token = token;
+        this.UserName = userName;
     }
 }
 

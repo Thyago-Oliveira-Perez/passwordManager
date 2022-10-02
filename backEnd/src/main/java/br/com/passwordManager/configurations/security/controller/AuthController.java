@@ -32,7 +32,8 @@ public class AuthController {
         try{
             Authentication authentication = authenticationManager.authenticate(loginCredentials);
             String token = tokenService.createToken(authentication);
-            return ResponseEntity.ok().body(new Token(token));
+            String userName = tokenService.getUserName(authentication);
+            return ResponseEntity.ok().body(new Token(token, userName));
         }catch (AuthenticationException e){
             return ResponseEntity.notFound().build();
         }

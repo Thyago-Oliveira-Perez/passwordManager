@@ -1,9 +1,11 @@
 package br.com.passwordManager.configurations.security.services;
 
 import br.com.passwordManager.entities.UserEntity;
+import br.com.passwordManager.services.UsersService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,6 @@ public class TokenService {
     public String createToken(Authentication authentication){
 
         UserEntity user = (UserEntity)authentication.getPrincipal();
-
         Date validFrom = new Date();
         Date validUntil = new Date(validFrom.getTime() + Long.parseLong(expirationDate));
 
@@ -50,5 +51,10 @@ public class TokenService {
         Claims claim =  Jwts.parser().setSigningKey(this.secret).parseClaimsJws(token).getBody();
 
         return UUID.fromString(claim.getSubject());
+    }
+
+    public String getUserName(Authentication authentication){
+        UserEntity user = (UserEntity)authentication.getPrincipal();
+        return user.getName();
     }
 }
