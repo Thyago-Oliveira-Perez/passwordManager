@@ -1,12 +1,18 @@
-import { LoginResponse } from "../pages/login/components/formLogin/formLogin.types";
+export default class AuthService{
 
-const AuthService = {
+  setLoggedUser(userLogged: any){
+    if(userLogged != null){
+      let parsedData = JSON.stringify(userLogged)
+      localStorage.setItem("user", parsedData)
+    }
+  }
 
-  setLoggedUser(userLogged: LoginResponse){
-    let parsedData = JSON.stringify(userLogged)
-    localStorage.setItem("user", parsedData)
+  getLoggedUser(){
+    let user = localStorage.getItem("user");
+    if(user != null){
+      return JSON.parse(user)
+    }
+    return user;
   }
 
 }
-
-export default AuthService;

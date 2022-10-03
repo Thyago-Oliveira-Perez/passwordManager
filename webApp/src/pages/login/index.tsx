@@ -1,10 +1,17 @@
 import FormLogin from "./components/formLogin";
-import { LoginRequest } from "./components/formLogin/formLogin.types";
+import {
+  LoginRequest,
+  LoginResponse,
+} from "./components/formLogin/formLogin.types";
 import { useState } from "react";
 import { UserApi } from "../../api/user.api";
+import AuthService from "../../services/auth.service";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const userApi = new UserApi();
+  const authService = new AuthService();
+  const navigate = useNavigate();
 
   const [loginObj, setLoginObj] = useState<LoginRequest>({
     login: "",
@@ -12,9 +19,10 @@ export default function LoginPage() {
   });
 
   const sendRequest = () => {
-    userApi.login(loginObj).then((response) => {
-      console.log(response);
-    })
+    userApi.login(loginObj).then((response: any) => {
+      authService.setLoggedUser(response.data);
+      navigate("/home");
+    });
   };
 
   return (

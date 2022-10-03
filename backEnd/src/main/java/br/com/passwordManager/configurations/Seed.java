@@ -1,4 +1,4 @@
-package br.com.passwordManager.configurations.security;
+package br.com.passwordManager.configurations;
 
 import br.com.passwordManager.entities.UserEntity;
 import br.com.passwordManager.repositories.UsersRepository;

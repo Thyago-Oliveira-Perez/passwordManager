@@ -1,4 +1,4 @@
-import { TextField, Button, InputLabel } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FormLoginTypes } from "./formLogin.types";
@@ -55,8 +55,8 @@ export default function FormLogin(props: FormLoginTypes) {
       </div>
 
       <div className="flex flex-col content-center m-2">
-        <InputLabel className="text-center">Não tem uma conta?</InputLabel>
-        <Link className="text-center" to="/register">
+        <p className="text-center text-lg text-gray-800">Não tem uma conta?</p>
+        <Link className="text-center text-blue-400" to="/register">
           Cadastre-se
         </Link>
       </div>
