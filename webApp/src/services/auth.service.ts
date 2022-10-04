@@ -10,6 +10,7 @@ export default class AuthService{
   getLoggedUser(){
     let user = localStorage.getItem("user");
     if(user != null){
+      console.log("function = ", JSON.parse(user))
       return JSON.parse(user)
     }
     return user;

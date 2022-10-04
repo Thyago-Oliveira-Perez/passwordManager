@@ -7,23 +7,29 @@ import {
 import {
   RegisterRequest,
   RegisterResponse,
-} from "../pages/register/components/formeRegister/formeRegister.types";
+} from "../components/formeRegister/formeRegister.types";
+import { UserResponse } from "../pages/loggedUser/loggedUser.types";
 
 export class UserApi extends CommonApi {
   constructor() {
     super();
-    this.url = this.url + "/auth/login";
   }
 
-  public async login<LoginRequest, LoginResponse>(
-    loginRequest: LoginRequest
-  ): Promise<LoginResponse> {
-    return await this._post(loginRequest);
+  public async login(loginRequest: LoginRequest) {
+    return await this._post<LoginRequest, LoginResponse>(
+      loginRequest,
+      "/auth/login"
+    );
   }
 
-  public async register<RegisterRequest, RegisterResponse>(
-    registerRequest: RegisterRequest
-  ): Promise<RegisterResponse> {
-    return await this._post(registerRequest);
+  public async register(registerRequest: RegisterRequest) {
+    return await this._post<RegisterRequest, RegisterResponse>(
+      registerRequest,
+      "/api/users/register"
+    );
+  }
+
+  public async getMyData(token: string) {
+    return await this._getDatas<UserResponse>(token, "/my-datas");
   }
 }
