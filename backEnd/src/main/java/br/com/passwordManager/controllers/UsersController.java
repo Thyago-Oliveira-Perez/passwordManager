@@ -1,8 +1,8 @@
 package br.com.passwordManager.controllers;
 
-import br.com.passwordManager.dto.RegisterRequest;
-import br.com.passwordManager.dto.UserDatasResponse;
-import br.com.passwordManager.entities.UserEntity;
+import br.com.passwordManager.dto.requests.RegisterRequest;
+import br.com.passwordManager.dto.requests.UpdateUserDatasRequest;
+import br.com.passwordManager.dto.responses.UserDatasResponse;
 import br.com.passwordManager.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,8 +20,13 @@ public class UsersController {
     private UsersService usersService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(RegisterRequest registerRequest){
+    public ResponseEntity<?> register(@RequestBody RegisterRequest registerRequest){
         return this.usersService.registerNewUser(registerRequest);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> udpate(@RequestBody UpdateUserDatasRequest updateUserDatasRequest, @RequestHeader HttpHeaders headers){
+        return this.usersService.updateUserDatas(headers, updateUserDatasRequest);
     }
 
     @GetMapping("/my-datas")

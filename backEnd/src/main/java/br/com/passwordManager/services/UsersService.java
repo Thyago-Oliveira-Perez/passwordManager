@@ -1,8 +1,9 @@
 package br.com.passwordManager.services;
 
 import br.com.passwordManager.configurations.security.services.TokenService;
-import br.com.passwordManager.dto.RegisterRequest;
-import br.com.passwordManager.dto.UserDatasResponse;
+import br.com.passwordManager.dto.requests.RegisterRequest;
+import br.com.passwordManager.dto.requests.UpdateUserDatasRequest;
+import br.com.passwordManager.dto.responses.UserDatasResponse;
 import br.com.passwordManager.entities.UserEntity;
 import br.com.passwordManager.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,10 +32,6 @@ public class UsersService {
         return this.usersRepository.findAllUserPassWords(userId, pageable);
     }
 
-    public String getUserNameById(UUID userId){
-        return this.usersRepository.getNameById(userId);
-    }
-
     public ResponseEntity<?> registerNewUser(RegisterRequest registerRequest) {
         try{
             UserEntity newUser = new UserEntity();
@@ -49,10 +46,27 @@ public class UsersService {
     }
 
     public ResponseEntity<UserDatasResponse> getMyDatas(HttpHeaders headers) {
-        String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
-        UUID userId = this.tokenService.getUserId(token.substring(7, token.length()));
-        Optional<UserEntity> user = this.usersRepository.findById(userId);
+        Optional<UserEntity> user = this.usersRepository.findById(getIdFromToken(headers));
         UserDatasResponse userResponse = new UserDatasResponse(user.get().getName(), user.get().getEmail());
         return user.isPresent() ? ResponseEntity.ok(userResponse) : ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<?> updateUserDatas(HttpHeaders headers, UpdateUserDatasRequest updateUserDatasRequest) {
+        try{
+            UserEntity user = this.usersRepository.getById(getIdFromToken(headers));
+            user.setName(updateUserDatasRequest.getName());
+            user.setEmail(updateUserDatasRequest.getEmail());
+            user.setPassword(updateUserDatasRequest.getPassword());
+            this.usersRepository.save(user);
+            return ResponseEntity.ok(user);
+        }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    protected UUID getIdFromToken(HttpHeaders headers){
+        String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
+        UUID userId = this.tokenService.getUserId(token.substring(7, token.length()));
+        return userId;
     }
 }

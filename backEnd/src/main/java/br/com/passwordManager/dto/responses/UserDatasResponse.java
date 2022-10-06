@@ -1,4 +1,4 @@
-package br.com.passwordManager.dto;
+package br.com.passwordManager.dto.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

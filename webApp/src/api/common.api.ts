@@ -51,10 +51,7 @@ export class CommonApi {
   protected async _post<T, U>(model: T, url: string): Promise<U> {
     try {
       return await this.axiosClient.post(
-        `${this.url}` + url,
-        {
-          model,
-        },
+        `${this.url}` + url, model, 
         {
           headers: {
             Authorization: this.authorization,

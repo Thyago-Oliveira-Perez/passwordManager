@@ -1,15 +1,16 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserApi } from "../../api/user.api";
 import FormDefault from "../../components/formeRegister";
-import { RegisterRequest } from "../../components/formeRegister/formeRegister.types";
+import { UpdateUserDatasRequest } from "../../components/formeRegister/formeRegister.types";
 import AuthService from "../../services/auth.service";
-import { UserResponse } from "./loggedUser.types";
 
 export default function LoggedUser() {
   const userApi = new UserApi();
   const authService = new AuthService();
+  const navigate = useNavigate();
 
-  const [userDatas, setUserDatas] = useState<RegisterRequest>({
+  const [userDatas, setUserDatas] = useState<UpdateUserDatasRequest>({
     name: "",
     email: "",
     password: "",
@@ -28,7 +29,12 @@ export default function LoggedUser() {
     }
   }, []);
 
-  const updateUser = () => {};
+  const updateUser = () => {
+    console.log(userDatas)
+    userApi.update(userDatas).then((response: any) => {
+      navigate("/home");
+    })
+  };
 
   return (
     <div className="mt-32 w-full h-4/5">
@@ -36,7 +42,7 @@ export default function LoggedUser() {
         object={userDatas}
         setObject={setUserDatas}
         function={() => updateUser()}
-        tittle={"Dados Pessoais"}
+        title={"Dados Pessoais"}
       />
     </div>
   );

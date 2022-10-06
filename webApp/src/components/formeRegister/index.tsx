@@ -1,11 +1,10 @@
-import { Button, InputLabel, TextField } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Button, TextField } from "@mui/material";
 import { FormDefaultTypes } from "./formeRegister.types";
 
 export default function FormDefault(props: FormDefaultTypes) {
   return (
     <div className="flex flex-col justify-between items-center h-96">
-      <h1 className="text-4xl text-white">{props.tittle}</h1>
+      <h1 className="text-4xl text-white">{props.title}</h1>
 
       <div>
         <TextField

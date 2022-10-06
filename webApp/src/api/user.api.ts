@@ -7,6 +7,8 @@ import {
 import {
   RegisterRequest,
   RegisterResponse,
+  UpdateUserDatasRequest,
+  UpdateUserDatasResponse,
 } from "../components/formeRegister/formeRegister.types";
 import { UserResponse } from "../pages/loggedUser/loggedUser.types";
 
@@ -26,6 +28,13 @@ export class UserApi extends CommonApi {
     return await this._post<RegisterRequest, RegisterResponse>(
       registerRequest,
       "/api/users/register"
+    );
+  }
+
+  public async update(updateRequest: UpdateUserDatasRequest) {
+    return await this._post<UpdateUserDatasRequest, UpdateUserDatasResponse>(
+      updateRequest,
+      "/api/users/update"
     );
   }
 

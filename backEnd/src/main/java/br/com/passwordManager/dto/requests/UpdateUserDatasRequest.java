@@ -1,10 +1,9 @@
-package br.com.passwordManager.dto;
+package br.com.passwordManager.dto.requests;
 
 import lombok.Getter;
 import lombok.Setter;
 
-public class RegisterRequest {
-
+public class UpdateUserDatasRequest {
     @Getter @Setter
     private String Name;
     @Getter @Setter
