@@ -18,11 +18,11 @@ export default function LoggedUser() {
   useEffect(() => {
     let token = authService.getLoggedUser().Token;
     if (token != null) {
-      userApi.getMyData(token).then((response: UserResponse) => {
+      userApi.getMyData().then((response: any) => {
         setUserDatas({
-          name: response.name,
-          email: response.email,
-          password: response.password,
+          name: response.data.name,
+          email: response.data.email,
+          password: ""
         });
       });
     }

@@ -18,6 +18,7 @@ export default function FormDefault(props: FormDefaultTypes) {
               name: e.target.value,
             })
           }
+          value={props.object.name}
           className="w-60"
         />
       </div>
@@ -26,7 +27,6 @@ export default function FormDefault(props: FormDefaultTypes) {
         <TextField
           label="Email"
           variant="outlined"
-          type="password"
           required={true}
           onChange={(e) =>
             props.setObject({
@@ -34,6 +34,7 @@ export default function FormDefault(props: FormDefaultTypes) {
               email: e.target.value,
             })
           }
+          value={props.object.email}
           className="w-60"
         />
       </div>
@@ -42,7 +43,6 @@ export default function FormDefault(props: FormDefaultTypes) {
         <TextField
           label="Password"
           variant="outlined"
-          type="password"
           required={true}
           onChange={(e) =>
             props.setObject({
@@ -67,7 +67,7 @@ export default function FormDefault(props: FormDefaultTypes) {
               : true
           }
         >
-          Register
+          Save
         </Button>
       </div>
     </div>

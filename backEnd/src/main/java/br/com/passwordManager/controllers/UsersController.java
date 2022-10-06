@@ -1,6 +1,7 @@
 package br.com.passwordManager.controllers;
 
 import br.com.passwordManager.dto.RegisterRequest;
+import br.com.passwordManager.dto.UserDatasResponse;
 import br.com.passwordManager.entities.UserEntity;
 import br.com.passwordManager.services.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class UsersController {
     }
 
     @GetMapping("/my-datas")
-    public ResponseEntity<UserEntity> register(@RequestHeader HttpHeaders headers){
+    public ResponseEntity<UserDatasResponse> myDatas(@RequestHeader HttpHeaders headers){
         return this.usersService.getMyDatas(headers);
     }
 

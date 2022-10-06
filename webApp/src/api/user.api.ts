@@ -16,7 +16,7 @@ export class UserApi extends CommonApi {
   }
 
   public async login(loginRequest: LoginRequest) {
-    return await this._post<LoginRequest, LoginResponse>(
+    return await this._login<LoginRequest, LoginResponse>(
       loginRequest,
       "/auth/login"
     );
@@ -29,7 +29,7 @@ export class UserApi extends CommonApi {
     );
   }
 
-  public async getMyData(token: string) {
-    return await this._getDatas<UserResponse>(token, "/my-datas");
+  public async getMyData() {
+    return await this._getDatas<UserResponse>("/api/users/my-datas");
   }
 }

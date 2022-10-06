@@ -12,7 +12,6 @@ export default function Header() {
   useEffect(() => {
     let loggedUserAux = authService.getLoggedUser();
     setUserPerfil(loggedUserAux != null ? loggedUserAux.UserName : "");
-    console.log(userPerfil);
   })
 
   return (

@@ -2,6 +2,7 @@ package br.com.passwordManager.services;
 
 import br.com.passwordManager.configurations.security.services.TokenService;
 import br.com.passwordManager.dto.RegisterRequest;
+import br.com.passwordManager.dto.UserDatasResponse;
 import br.com.passwordManager.entities.UserEntity;
 import br.com.passwordManager.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +48,11 @@ public class UsersService {
         }
     }
 
-    public ResponseEntity<UserEntity> getMyDatas(HttpHeaders headers) {
+    public ResponseEntity<UserDatasResponse> getMyDatas(HttpHeaders headers) {
         String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
         UUID userId = this.tokenService.getUserId(token.substring(7, token.length()));
         Optional<UserEntity> user = this.usersRepository.findById(userId);
-        return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.notFound().build();
+        UserDatasResponse userResponse = new UserDatasResponse(user.get().getName(), user.get().getEmail());
+        return user.isPresent() ? ResponseEntity.ok(userResponse) : ResponseEntity.notFound().build();
     }
 }
