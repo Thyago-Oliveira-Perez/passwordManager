@@ -23,13 +23,10 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthService autenticacaoService;
-
     @Autowired
     private TokenService tokenService;
-
     @Autowired
     private UsersRepository usuarioRepository;
-
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -52,7 +49,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/usuarios/register").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                .antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api-docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
@@ -60,6 +56,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
                 .and()
                 .addFilterBefore(new AuthTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
     }
+
     //Configurações de recursos estaticos(js, css, html, imagens, etc...)
     @Override
     public void configure(WebSecurity web) throws Exception {

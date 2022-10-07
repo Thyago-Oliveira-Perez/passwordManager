@@ -24,7 +24,11 @@ export class CommonApi {
    * Define o tipo de autenticação e pega o token
    * do LocalStorage do navegador para mandar junto na requisição
    */
-  authorization = `Bearer ${this.authService.getLoggedUser().Token}`;
+  authorization = `Bearer ${
+    this.authService.getLoggedUser() !== null
+      ? this.authService.getLoggedUser().Token
+      : ""
+  }`;
 
   /**
    * Método auxiliar para lidar com exceções
@@ -50,14 +54,11 @@ export class CommonApi {
 
   protected async _post<T, U>(model: T, url: string): Promise<U> {
     try {
-      return await this.axiosClient.post(
-        `${this.url}` + url, model, 
-        {
-          headers: {
-            Authorization: this.authorization,
-          },
-        }
-      );
+      return await this.axiosClient.post(`${this.url}` + url, model, {
+        headers: {
+          Authorization: this.authorization,
+        },
+      });
     } catch (error: any) {
       return this.handleError(error);
     }
