@@ -26,12 +26,6 @@ public class UsersService {
     @Autowired
     private TokenService tokenService;
 
-    public Page<?> getPasswords(HttpHeaders headers, Pageable pageable) {
-        String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
-        UUID userId = this.tokenService.getUserId(token.substring(7, token.length()));
-        return this.usersRepository.findAllUserPassWords(userId, pageable);
-    }
-
     public ResponseEntity<?> registerNewUser(RegisterRequest registerRequest) {
         try{
             UserEntity newUser = new UserEntity();

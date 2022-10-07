@@ -14,12 +14,12 @@ public class PasswordEntity {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter
-    private UUID Id;
+    private UUID id;
 
     @Getter @Setter
     @NotNull
     @Column(nullable = false)
-    private String Value;
+    private String value;
 
     @Getter @Setter
     @ManyToOne

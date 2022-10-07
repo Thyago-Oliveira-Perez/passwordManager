@@ -41,4 +41,8 @@ export class UserApi extends CommonApi {
   public async getMyData() {
     return await this._getDatas<UserResponse>("/api/users/my-datas");
   }
+
+  public async getMyPasswords() {
+    return await this._getDatas<UserResponse>("/api/users/my-passwords");
+  }
 }

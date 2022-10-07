@@ -14,9 +14,6 @@ import java.util.UUID;
 @Repository
 public interface UsersRepository extends JpaRepository<UserEntity, UUID> {
 
-    @Query("FROM UserEntity users WHERE users.Id = :userId")
-    public Page<?> findAllUserPassWords(@Param("userId") UUID userId, Pageable pageable);
-
     @Query("FROM UserEntity  users WHERE users.Id =: userId")
     public String getNameById(@Param("userId") UUID userId);
 }

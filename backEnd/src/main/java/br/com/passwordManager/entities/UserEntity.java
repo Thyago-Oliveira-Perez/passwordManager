@@ -17,21 +17,21 @@ public class UserEntity implements UserDetails  {
     @Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter
-    private UUID Id;
+    private UUID id;
 
     @Getter @Setter
     @NotNull
     @Column(nullable = false)
-    private String Name;
+    private String name;
 
     @Getter @Setter
     @NotNull
     @Column(nullable = false)
-    private String Email;
+    private String email;
 
     @Getter @Setter
     @NotNull
-    private String Password;
+    private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -40,7 +40,7 @@ public class UserEntity implements UserDetails  {
 
     @Override
     public String getUsername() {
-        return this.Password;
+        return this.password;
     }
 
     @Override

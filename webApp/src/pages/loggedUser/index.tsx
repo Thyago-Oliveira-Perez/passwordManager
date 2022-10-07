@@ -30,7 +30,6 @@ export default function LoggedUser() {
   }, []);
 
   const updateUser = () => {
-    console.log(userDatas)
     userApi.update(userDatas).then((response: any) => {
       navigate("/home");
     })

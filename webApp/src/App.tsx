@@ -6,15 +6,11 @@ import Header from "./components/header/header";
 import RegisterPage from "./pages/register";
 import LoggedUser from "./pages/loggedUser";
 import AuthService from "./services/auth.service";
+import PasswordList from "./pages/passwordList";
 
 function App() {
-  const PrivateRoute = (children: any) => {
-    const authService = new AuthService();
-
-    var isAuthenticated = authService.getLoggedUser() !== null ? true : false;
-
-    return isAuthenticated ? children : <Navigate to="/login" />;
-  };
+  const authService = new AuthService();
+  var isAuthenticated = authService.getLoggedUser() !== null ? true : false;
 
   return (
     <BrowserRouter>
@@ -27,9 +23,13 @@ function App() {
           <Route
             path="/:userName"
             element={
-              <PrivateRoute>
-                <LoggedUser />
-              </PrivateRoute>
+              isAuthenticated ? <LoggedUser /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/my-passwords"
+            element={
+              isAuthenticated ? <PasswordList /> : <Navigate to="/login" />
             }
           />
         </Routes>

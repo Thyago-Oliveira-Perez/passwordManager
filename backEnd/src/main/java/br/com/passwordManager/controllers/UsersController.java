@@ -34,9 +34,4 @@ public class UsersController {
         return this.usersService.getMyDatas(headers);
     }
 
-    @GetMapping("/my-passwords")
-    public Page<?> listPasswords(@RequestHeader HttpHeaders headers, Pageable pageable){
-        return this.usersService.getPasswords(headers, pageable);
-    }
-
 }
