@@ -6,7 +6,7 @@ export class PasswordApi extends CommonApi {
     super();
   }
 
-  public async getMyPasswords() {
-    return await this._getDatas<PasswordsResponse>("/api/passwords/my-passwords");
+  public async getUsersPasswords() {
+    return await this._getDatas<PasswordsResponse>("/api/passwords/user-passwords");
   }
 }

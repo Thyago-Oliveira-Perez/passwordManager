@@ -14,6 +14,6 @@ import java.util.UUID;
 @Repository
 public interface UsersRepository extends JpaRepository<UserEntity, UUID> {
 
-    @Query("FROM UserEntity  users WHERE users.Id =: userId")
+    @Query("FROM UserEntity  users WHERE users.id =: userId")
     public String getNameById(@Param("userId") UUID userId);
 }

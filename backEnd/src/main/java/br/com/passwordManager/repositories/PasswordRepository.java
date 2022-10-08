@@ -1,5 +1,6 @@
 package br.com.passwordManager.repositories;
 
+import br.com.passwordManager.dto.responses.PasswordsResponse;
 import br.com.passwordManager.entities.PasswordEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,5 +15,5 @@ import java.util.UUID;
 public interface PasswordRepository extends JpaRepository<PasswordEntity, UUID> {
 
     @Query("FROM PasswordEntity password WHERE password.user.id = :userId")
-    public Page<?> findAllUserPasswords(@Param("userId") UUID userId, Pageable pageable);
+    public Page<PasswordEntity> findAllUserPasswords(@Param("userId") UUID userId, Pageable pageable);
 }

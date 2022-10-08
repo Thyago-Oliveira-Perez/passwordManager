@@ -14,13 +14,14 @@ export default function PasswordList() {
   useEffect(() => {
     passwordApi.getUsersPasswords().then((response: any) => {
       setUserPasswords(response.data)
+      console.log(response.data)
     })
   }, [])
 
   return (
     <div>
       <List dense={dense}>
-        {userPasswords.map(password => {
+        {userPasswords.map((password) => {
           return(
             <>
           <ListItem

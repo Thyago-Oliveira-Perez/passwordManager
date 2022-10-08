@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class AuthTokenFilter extends OncePerRequestFilter {
+public class AuthRequestFilter extends OncePerRequestFilter {
 
     private String requestHeader = "Authorization";
     /*
@@ -26,7 +26,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private UsersRepository usuarioRepository;
 
-    public AuthTokenFilter(TokenService tokenService, UsersRepository usuarioRepository) {
+    public AuthRequestFilter(TokenService tokenService, UsersRepository usuarioRepository) {
         this.tokenService = tokenService;
         this.usuarioRepository = usuarioRepository;
     }
