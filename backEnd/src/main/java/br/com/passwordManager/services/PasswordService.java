@@ -25,8 +25,12 @@ public class PasswordService {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private CryptographyService cyptography;
+
     public ResponseEntity<?> registerPassword(PasswordEntity password){
         try{
+            password.setValue(cyptography.encrypt(password.getValue()));
             this.passwordRepository.save(password);
             return ResponseEntity.ok().body("Senha cadastrada com sucesso!");
         }catch(Exception e){
@@ -42,7 +46,7 @@ public class PasswordService {
         Page<PasswordEntity> userPasswordsDB = this.passwordRepository.findAllUserPasswords(userId, pageable);
 
         userPasswordsDB.getContent().forEach(e -> {
-          returnListPassword.add(new PasswordsResponse(e.getId(), e.getValue()));
+            returnListPassword.add(new PasswordsResponse(e.getId(), cyptography.decrypt(e.getValue())));
         });
 
         Page<PasswordsResponse> returnPageAbleList = new PageImpl<PasswordsResponse>(returnListPassword);

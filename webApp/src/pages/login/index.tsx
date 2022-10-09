@@ -22,6 +22,7 @@ export default function LoginPage() {
     userApi.login(loginObj).then((response: any) => {
       authService.setLoggedUser(response.data);
       navigate("/home");
+      window.location.reload();
     });
   };
 

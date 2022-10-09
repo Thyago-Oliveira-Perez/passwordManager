@@ -4,6 +4,7 @@ import br.com.passwordManager.entities.PasswordEntity;
 import br.com.passwordManager.entities.UserEntity;
 import br.com.passwordManager.repositories.PasswordRepository;
 import br.com.passwordManager.repositories.UsersRepository;
+import br.com.passwordManager.services.CryptographyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -28,6 +29,7 @@ public class Seed implements ApplicationListener<ContextRefreshedEvent> {
             BCryptPasswordEncoder senha = new BCryptPasswordEncoder();
 
             UserEntity user = new UserEntity();
+
             user.setId(UUID.randomUUID());
             user.setName("DefaultUser");
             user.setEmail("default@gmail.com");
@@ -37,9 +39,12 @@ public class Seed implements ApplicationListener<ContextRefreshedEvent> {
 
             if(this.passwordRepository.count() <= 0){
 
+                CryptographyService cyptography = new CryptographyService();
+
                 PasswordEntity password = new PasswordEntity();
+
                 password.setId(UUID.randomUUID());
-                password.setValue("mypassword");
+                password.setValue(cyptography.encrypt("mypassword"));
                 password.setUser(user);
                 this.passwordRepository.save(password);
             }
