@@ -41,12 +41,20 @@ public class Seed implements ApplicationListener<ContextRefreshedEvent> {
 
                 CryptographyService cyptography = new CryptographyService();
 
-                PasswordEntity password = new PasswordEntity();
+                PasswordEntity password0 = new PasswordEntity();
 
-                password.setId(UUID.randomUUID());
-                password.setValue(cyptography.encrypt("mypassword"));
-                password.setUser(user);
-                this.passwordRepository.save(password);
+                password0.setId(UUID.randomUUID());
+                password0.setValue(cyptography.encrypt("mypassword0"));
+                password0.setUser(user);
+
+                PasswordEntity password1 = new PasswordEntity();
+
+                password1.setId(UUID.randomUUID());
+                password1.setValue(cyptography.encrypt("mypassword1"));
+                password1.setUser(user);
+
+
+                this.passwordRepository.save(password1);
             }
         }
 
