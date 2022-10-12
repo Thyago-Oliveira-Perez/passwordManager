@@ -1,9 +1,10 @@
 package br.com.passwordManager.services;
 
-import br.com.passwordManager.configurations.security.services.TokenService;
 import br.com.passwordManager.dto.responses.PasswordsResponse;
 import br.com.passwordManager.entities.PasswordEntity;
+import br.com.passwordManager.entities.UserEntity;
 import br.com.passwordManager.repositories.PasswordRepository;
+import br.com.passwordManager.repositories.UsersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -23,10 +24,13 @@ public class PasswordService {
     private PasswordRepository passwordRepository;
 
     @Autowired
-    private TokenService tokenService;
+    private CryptographyService cyptography;
 
     @Autowired
-    private CryptographyService cyptography;
+    private HeadersService headersService;
+
+    @Autowired
+    private UsersRepository usersRepository;
 
     public ResponseEntity<?> registerPassword(PasswordEntity password){
         try{
@@ -39,11 +43,9 @@ public class PasswordService {
     }
 
     public ResponseEntity<Page<PasswordsResponse>> getPasswords(HttpHeaders headers, Pageable pageable) {
-        String token = headers.getFirst(HttpHeaders.AUTHORIZATION);
-        UUID userId = this.tokenService.getUserId(token.substring(7, token.length()));
 
         List<PasswordsResponse> returnListPassword = new ArrayList<PasswordsResponse>();
-        Page<PasswordEntity> userPasswordsDB = this.passwordRepository.findAllUserPasswords(userId, pageable);
+        Page<PasswordEntity> userPasswordsDB = this.passwordRepository.findAllUserPasswords(headersService.getIdFromToken(headers), pageable);
 
         userPasswordsDB.getContent().forEach(e -> {
             returnListPassword.add(new PasswordsResponse(e.getId(), cyptography.decrypt(e.getValue())));
@@ -51,5 +53,28 @@ public class PasswordService {
 
         Page<PasswordsResponse> returnPageAbleList = new PageImpl<PasswordsResponse>(returnListPassword);
         return ResponseEntity.ok(returnPageAbleList);
+    }
+
+    public ResponseEntity<Page<PasswordsResponse>> updatePasswords(HttpHeaders headers, List<PasswordsResponse> updatedPasswords) {
+
+        CryptographyService cyptography = new CryptographyService();
+
+        UserEntity user = usersRepository.getById(headersService.getIdFromToken(headers));
+
+        List<PasswordEntity> newPasswords = new ArrayList<>();
+        updatedPasswords.forEach(e -> {
+           newPasswords.add(new PasswordEntity(e.id, cyptography.encrypt(e.value), user));
+        });
+
+        Page<PasswordsResponse> newPageableList = new PageImpl<PasswordsResponse>(updatedPasswords);
+
+        this.passwordRepository.saveAll(newPasswords);
+
+        return ResponseEntity.ok(newPageableList);
+    }
+
+    public ResponseEntity<?> deletePassword(String idPassword){
+        this.passwordRepository.deleteById(UUID.fromString(idPassword));
+        return ResponseEntity.ok().build();
     }
 }

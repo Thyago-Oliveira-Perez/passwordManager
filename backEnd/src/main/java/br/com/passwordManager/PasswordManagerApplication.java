@@ -18,7 +18,7 @@ public class PasswordManagerApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**");
+				registry.addMapping("/**").allowedOrigins("http://127.0.0.1:3000");
 			}
 		};
 	}

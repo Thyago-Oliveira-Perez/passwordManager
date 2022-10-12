@@ -1,6 +1,8 @@
 package br.com.passwordManager.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,10 +11,11 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "passwords")
+@AllArgsConstructor
+@NoArgsConstructor
 public class PasswordEntity {
 
     @Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter @Setter
     private UUID id;
 

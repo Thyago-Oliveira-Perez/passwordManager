@@ -36,13 +36,21 @@ export class CommonApi {
   private handleError(error: any) {
     return Promise.reject(error.response);
   }
-
+  
   /**
    * Métodos comuns entre as api's de consumos
    */
+  protected async _login<T, U>(model: T, url: string): Promise<U> {
+    try {
+      return await this.axiosClient.post((`${this.url}` + url), model);
+    } catch (error: any) {
+      return this.handleError(error);
+    }
+  }
+  
   protected async _getDatas<T>(url: string): Promise<T> {
     try {
-      return await this.axiosClient.get(`${this.url}` + url, {
+      return await this.axiosClient.get((`${this.url}` + url), {
         headers: {
           Authorization: this.authorization,
         },
@@ -54,7 +62,7 @@ export class CommonApi {
 
   protected async _post<T, U>(model: T, url: string): Promise<U> {
     try {
-      return await this.axiosClient.post(`${this.url}` + url, model, {
+      return await this.axiosClient.post((`${this.url}` + url), model, {
         headers: {
           Authorization: this.authorization,
         },
@@ -64,11 +72,12 @@ export class CommonApi {
     }
   }
 
-  protected async _login<T, U>(model: T, url: string): Promise<U> {
+  protected async _delete<T>(id: string, url: string): Promise<T> {
     try {
-      return await this.axiosClient.post(`${this.url}` + url, model);
+      return await this.axiosClient.delete((`${this.url}` + url + `/${id}`));
     } catch (error: any) {
       return this.handleError(error);
     }
   }
+
 }
