@@ -13,9 +13,11 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Service
 public class PasswordService {
@@ -32,16 +34,6 @@ public class PasswordService {
     @Autowired
     private UsersRepository usersRepository;
 
-    public ResponseEntity<?> registerPassword(PasswordEntity password){
-        try{
-            password.setValue(cyptography.encrypt(password.getValue()));
-            this.passwordRepository.save(password);
-            return ResponseEntity.ok().body("Senha cadastrada com sucesso!");
-        }catch(Exception e){
-            return ResponseEntity.badRequest().body("Senha já cadastrada!");
-        }
-    }
-
     public ResponseEntity<Page<PasswordsResponse>> getPasswords(HttpHeaders headers, Pageable pageable) {
 
         List<PasswordsResponse> returnListPassword = new ArrayList<PasswordsResponse>();
@@ -55,26 +47,72 @@ public class PasswordService {
         return ResponseEntity.ok(returnPageAbleList);
     }
 
-    public ResponseEntity<Page<PasswordsResponse>> updatePasswords(HttpHeaders headers, List<PasswordsResponse> updatedPasswords) {
+    @Transactional
+    public ResponseEntity<Page<PasswordsResponse>> updatePasswords(HttpHeaders headers, List<PasswordsResponse> passwords) {
 
-        CryptographyService cyptography = new CryptographyService();
+        /**
+         * listas auxiliares
+         */
+        List<PasswordsResponse> newPasswords = new ArrayList<PasswordsResponse>();
+        List<PasswordsResponse> updatedPasswords = new ArrayList<PasswordsResponse>();
+        List<UUID> deletedPasswordsIds = new ArrayList<UUID>();
 
-        UserEntity user = usersRepository.getById(headersService.getIdFromToken(headers));
+        List<PasswordEntity> dbPasswords = this.passwordRepository.listAllUserPasswords(headersService.getIdFromToken(headers));
 
-        List<PasswordEntity> newPasswords = new ArrayList<>();
-        updatedPasswords.forEach(e -> {
-           newPasswords.add(new PasswordEntity(e.id, cyptography.encrypt(e.value), user));
+        /**
+         * confere o que foi adicionado e o que foi atualizado
+         */
+        passwords.forEach(password -> {
+            if(dbPasswords.stream().noneMatch((e) -> e.getId().equals(password.getId()))){
+                newPasswords.add(password);
+            }else if(dbPasswords.stream().anyMatch((e) -> e.getId().equals(password.getId()))){
+
+                updatedPasswords.add(password);
+            }
         });
 
-        Page<PasswordsResponse> newPageableList = new PageImpl<PasswordsResponse>(updatedPasswords);
+        /**
+         * pega os ids das senhas deletadas
+         */
+        dbPasswords.forEach(dbPassword -> {
+            if(passwords.stream().noneMatch(e -> e.getId().equals(dbPassword.getId()))){
+                deletedPasswordsIds.add(dbPassword.getId());
+            }
+        });
 
-        this.passwordRepository.saveAll(newPasswords);
+        /**
+         * instancia a service para criptografia
+         * pega o usuario para adicionar as senhas
+         */
+        CryptographyService cyptography = new CryptographyService();
+        UserEntity user = usersRepository.getById(headersService.getIdFromToken(headers));
+
+        /**
+         * adiciona as senhas novas
+         */
+        if(newPasswords.size() > 0){
+            newPasswords.forEach(newPassword -> {
+                this.passwordRepository.save(new PasswordEntity(UUID.randomUUID(), cyptography.encrypt(newPassword.getValue()), user));
+            });
+        }
+        /**
+         * atualiza as senhas
+         */
+        if(updatedPasswords.size() > 0 && deletedPasswordsIds.size() == 0){
+            updatedPasswords.forEach(updatedPassword -> {
+                this.passwordRepository.save(new PasswordEntity(updatedPassword.getId(), cyptography.encrypt(updatedPassword.getValue()), user));
+            });
+        }
+        /**
+         * deleta as senhas
+         */
+        if(deletedPasswordsIds.size() > 0){
+            this.passwordRepository.deleteAllById(deletedPasswordsIds);
+        }
+
+        Page<PasswordsResponse> newPageableList = new PageImpl<PasswordsResponse>(passwords);
 
         return ResponseEntity.ok(newPageableList);
     }
 
-    public ResponseEntity<?> deletePassword(String idPassword){
-        this.passwordRepository.deleteById(UUID.fromString(idPassword));
-        return ResponseEntity.ok().build();
-    }
 }

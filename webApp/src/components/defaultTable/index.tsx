@@ -62,6 +62,13 @@ export default function DefaultTable(props: defaultTableProps) {
     props.setDelete(id);
   };
 
+  const handleAddItem = () => {
+    props.setList([...props.list, {
+      id: "",
+      value: ""
+    }])
+  }
+
   return (
     <div className="w-3/5">
       <table className="w-full">
@@ -79,7 +86,7 @@ export default function DefaultTable(props: defaultTableProps) {
             <th></th>
             <th className="h-6 w-6">
               <img
-                onClick={() => console.log("adicionar nova senha")}
+                onClick={() => handleAddItem()}
                 src={addIcon}
                 alt=""
               />
@@ -89,7 +96,7 @@ export default function DefaultTable(props: defaultTableProps) {
         <tbody>
           {props.list.map((item, index) => {
             return (
-              <tr id={item.id + item.value}>
+              <tr key={item.id}>
                 <td>
                   <Checkbox
                     checked={selectedItems.includes(item)}

@@ -15,32 +15,27 @@ export default function PasswordList() {
     });
   }, []);
 
-  const updatePassword = () => {
+  useEffect(() => {
+    if (deletedPassword !== "") {
+      setUserPasswords(userPasswords.filter((e) => e.id !== deletedPassword));
+    }
+  }, [deletedPassword]);
+
+  const saveChanges = () => {
+    console.log(userPasswords)
     passwordApi.updateUserPasswords(userPasswords).then((response: any) => {
       setUserPasswords(response.data.content);
     });
-  }
-
-  useEffect(() => {
-    if(deletedPassword !== ""){
-      passwordApi.deleteUserPasswords(deletedPassword).then(() => {
-        setDeletedPassword("");
-      });
-    }
-  }, [deletedPassword])
+  };
 
   return (
     <div className="flex flex-col items-center justify-center w-screen">
-      <DefaultTable 
+      <DefaultTable
         list={userPasswords}
         setList={setUserPasswords}
         setDelete={setDeletedPassword}
-       />
-      <Button
-        onClick={() => updatePassword()}
-      >
-        Salvar 
-      </Button>
+      />
+      <Button disabled={userPasswords.find(e => e.value === "") ? true : false} onClick={() => saveChanges()}>Salvar</Button>
     </div>
   );
 }

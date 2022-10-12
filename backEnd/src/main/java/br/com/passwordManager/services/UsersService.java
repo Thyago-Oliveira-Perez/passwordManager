@@ -14,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ public class UsersService {
     @Autowired
     private TokenService tokenService;
 
+    @Transactional
     public ResponseEntity<?> registerNewUser(RegisterRequest registerRequest) {
         try{
             UserEntity newUser = new UserEntity();
@@ -45,6 +47,7 @@ public class UsersService {
         return user.isPresent() ? ResponseEntity.ok(userResponse) : ResponseEntity.notFound().build();
     }
 
+    @Transactional
     public ResponseEntity<?> updateUserDatas(HttpHeaders headers, UpdateUserDatasRequest updateUserDatasRequest) {
         try{
             UserEntity user = this.usersRepository.getById(getIdFromToken(headers));
