@@ -1,41 +1,67 @@
 import { useEffect, useState } from "react";
 import { PasswordApi } from "../../api/passwords.api";
 import { PasswordsResponse } from "./password.types";
-import DefaultTable from "../../components/defaultTable";
+import DefaultTable from "./defaultTable";
 import { Button } from "@mui/material";
+import { PasswordRounded } from "@mui/icons-material";
 
 export default function PasswordList() {
   const passwordApi = new PasswordApi();
+  const [passwords, setPasswords] = useState<PasswordsResponse[]>([]);
   const [userPasswords, setUserPasswords] = useState<PasswordsResponse[]>([]);
-  const [deletedPassword, setDeletedPassword] = useState<string>("");
+
+  const [deletedPasswords, setDeletedPasswords] = useState<string[]>([]);
+  const [updatedPasswords, setUpdatedPasswords] = useState<PasswordsResponse[]>([]);
+  const [newPasswords, setNewPasswords] = useState<PasswordsResponse[]>([]);
 
   useEffect(() => {
     passwordApi.getUserPasswords().then((response: any) => {
       setUserPasswords(response.data.content);
+      setPasswords(response.data.content);
     });
   }, []);
 
   useEffect(() => {
-    if (deletedPassword !== "") {
-      setUserPasswords(userPasswords.filter((e) => e.id !== deletedPassword));
+    if (deletedPasswords.length > 0) {
+      setUserPasswords(
+        userPasswords.filter((e) => deletedPasswords.includes(e.id))
+      );
     }
-  }, [deletedPassword]);
+  }, [deletedPasswords]);
 
   const saveChanges = () => {
-    console.log(userPasswords)
-    passwordApi.updateUserPasswords(userPasswords).then((response: any) => {
-      setUserPasswords(response.data.content);
-    });
+    if (deletedPasswords.length > 0) {
+      passwordApi.deleteUserPasswords(deletedPasswords);
+    }
+    if (updatedPasswords.length > 0){
+      passwordApi.updateUserPasswords(updatedPasswords);
+    }
+    if(newPasswords.length > 0){
+      passwordApi.insertUserPasswords(newPasswords);
+    }
   };
 
   return (
     <div className="flex flex-col items-center justify-center w-screen">
       <DefaultTable
-        list={userPasswords}
-        setList={setUserPasswords}
-        setDelete={setDeletedPassword}
+        mainList={userPasswords}
+        setMainList={setUserPasswords}
+
+        newPasswords={newPasswords}
+        setNewPasswords={setNewPasswords}
+
+        updatedPasswords={updatedPasswords}
+        setUpdatedPasswords={setUpdatedPasswords}
+
+        deletedList={deletedPasswords}
+        setDelete={setDeletedPasswords}
       />
-      <Button disabled={userPasswords.find(e => e.value === "") ? true : false} onClick={() => saveChanges()}>Salvar</Button>
+      <Button
+        disabled={userPasswords.find((e) => e.value === "") ? true : false}
+        onClick={() => saveChanges()}
+      >
+        Salvar
+      </Button>
     </div>
   );
 }

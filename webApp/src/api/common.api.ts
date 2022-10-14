@@ -72,9 +72,33 @@ export class CommonApi {
     }
   }
 
-  protected async _delete<T>(id: string, url: string): Promise<T> {
+  protected async _insert<T>(model: T, url: string) {
     try {
-      return await this.axiosClient.delete(`${this.url}` + url + `/${id}`, {
+      return await this.axiosClient.post(`${this.url}` + url, model, {
+        headers: {
+          Authorization: this.authorization,
+        },
+      });
+    } catch (error: any) {
+      return this.handleError(error);
+    }
+  }
+
+  protected async _update<T>(model: T, url: string){
+    try {
+      return await this.axiosClient.post(`${this.url}` + url, model, {
+        headers: {
+          Authorization: this.authorization,
+        },
+      });
+    } catch (error: any) {
+      return this.handleError(error);
+    }
+  }
+
+  protected async _delete<T>(model: T, url: string){
+    try {
+      return await this.axiosClient.post(`${this.url}` + url, model, {
         headers: {
           Authorization: this.authorization,
         },

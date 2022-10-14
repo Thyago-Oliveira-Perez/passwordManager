@@ -10,7 +10,15 @@ export class PasswordApi extends CommonApi {
     return await this._getDatas<PasswordsResponse>("/api/passwords/user-passwords");
   }
 
+  public async insertUserPasswords(newPasswords: PasswordsResponse[]){
+    return await this._insert<PasswordsResponse[]>(newPasswords, "/api/passwords/insert")
+  }
+
   public async updateUserPasswords(updatedPassword: PasswordsResponse[]) {
-    return await this._post<PasswordsResponse[], PasswordsResponse[]>(updatedPassword, "/api/passwords/update");
+    return await this._update<PasswordsResponse[]>(updatedPassword, "/api/passwords/update");
   } 
+
+  public async deleteUserPasswords(deletedIds: string[]){
+    return await this._delete<string[]>(deletedIds, "api/passwords/delete");
+  }
 }

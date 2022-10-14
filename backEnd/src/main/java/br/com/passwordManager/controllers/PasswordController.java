@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/api/passwords")
@@ -27,8 +28,18 @@ public class PasswordController {
         return this.passwordService.getPasswords(headers, pageable);
     }
 
+    @PostMapping("/insert")
+    public ResponseEntity<?> insertPasswords(@RequestHeader HttpHeaders httpHeaders, @RequestBody List<PasswordsResponse> newPasswords){
+        return this.passwordService.insertPasswords(httpHeaders, newPasswords);
+    }
+
     @PostMapping("/update")
-    public ResponseEntity<Page<PasswordsResponse>> updatePasswords(@RequestHeader HttpHeaders headers, @RequestBody List<PasswordsResponse> updatedPasswords){
+    public ResponseEntity<?> updatePasswords(@RequestHeader HttpHeaders headers, @RequestBody List<PasswordsResponse> updatedPasswords){
         return this.passwordService.updatePasswords(headers, updatedPasswords);
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> deletePasswords(@RequestBody List<UUID> deletedPasswords){
+        return this.passwordService.deletePasswords(deletedPasswords);
     }
 }

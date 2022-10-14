@@ -1,6 +1,6 @@
 import { Checkbox, TextField } from "@mui/material";
 import { useState } from "react";
-import { PasswordsResponse } from "../../pages/passwordList/password.types";
+import { PasswordsResponse } from "../password.types";
 import { defaultTableProps } from "./defaultTable.types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -9,13 +9,12 @@ import addIcon from "../../assets/add-icon.svg";
 export default function DefaultTable(props: defaultTableProps) {
   const [allSelected, setAllSelected] = useState(false);
   const [selectedItems, setSelectedItems] = useState<PasswordsResponse[]>([]);
-  const [editedItems, setEditedItems] = useState<PasswordsResponse[]>([]);
 
   const onSelectAllItems = () => {
     if (allSelected) {
       setSelectedItems([]);
     } else {
-      setSelectedItems(props.list);
+      setSelectedItems(props.mainList);
     }
     setAllSelected(!allSelected);
   };
@@ -38,36 +37,37 @@ export default function DefaultTable(props: defaultTableProps) {
     newValue?: string
   ) => {
     if (!save) {
-      if (!editedItems.includes(item)) {
-        setEditedItems([...editedItems, item]);
+      if (props.updatedPasswords.includes(item)) {
+        props.setUpdatedPasswords([...props.updatedPasswords, item]);
       } else {
-        var aux = editedItems.filter((e) => e.id != item.id);
-        setEditedItems(aux);
+        var aux = props.updatedPasswords.filter((e) => e.id != item.id);
+        props.setUpdatedPasswords(aux);
       }
-    }
-
-    if (save) {
-      const newItems = props.list.map((e) => {
+    } else {
+      const updatedItems = props.updatedPasswords.map((e) => {
         if (e.id === item.id) {
           newValue != undefined ? (e.value = newValue) : (e.value = item.value);
           return e;
         }
         return e;
       });
-      props.setList(newItems);
+      props.setUpdatedPasswords(updatedItems);
     }
   };
 
   const handleDeletedItems = (id: string) => {
-    props.setDelete(id);
+    props.setDelete([...props.deletedList, id]);
   };
 
   const handleAddItem = () => {
-    props.setList([...props.list, {
-      id: "",
-      value: ""
-    }])
-  }
+    props.setNewPasswords([
+      ...props.newPasswords,
+      {
+        id: "",
+        value: "",
+      },
+    ]);
+  };
 
   return (
     <div className="w-3/5">
@@ -85,16 +85,12 @@ export default function DefaultTable(props: defaultTableProps) {
             <th>Actions</th>
             <th></th>
             <th className="h-6 w-6">
-              <img
-                onClick={() => handleAddItem()}
-                src={addIcon}
-                alt=""
-              />
+              <img onClick={() => handleAddItem()} src={addIcon} alt="" />
             </th>
           </tr>
         </thead>
         <tbody>
-          {props.list.map((item, index) => {
+          {props.mainList.map((item, index) => {
             return (
               <tr key={item.id}>
                 <td>
@@ -105,7 +101,7 @@ export default function DefaultTable(props: defaultTableProps) {
                 </td>
                 <td>
                   <TextField
-                    disabled={!editedItems.includes(item)}
+                    disabled={!props.updatedPasswords.includes(item)}
                     defaultValue={item.value}
                     onChange={(e) =>
                       handleEditedItems(item, true, e.target.value)
