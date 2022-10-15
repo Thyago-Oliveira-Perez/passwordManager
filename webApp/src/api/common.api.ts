@@ -84,7 +84,7 @@ export class CommonApi {
     }
   }
 
-  protected async _update<T>(model: T, url: string){
+  protected async _update<T>(model: T, url: string) {
     try {
       return await this.axiosClient.post(`${this.url}` + url, model, {
         headers: {
@@ -96,7 +96,7 @@ export class CommonApi {
     }
   }
 
-  protected async _delete<T>(model: T, url: string){
+  protected async _delete<T>(model: T, url: string) {
     try {
       return await this.axiosClient.post(`${this.url}` + url, model, {
         headers: {

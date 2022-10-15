@@ -1,5 +1,6 @@
 package br.com.passwordManager.controllers;
 
+import br.com.passwordManager.dto.requests.DeletedPasswords;
 import br.com.passwordManager.dto.responses.PasswordsResponse;
 import br.com.passwordManager.entities.PasswordEntity;
 import br.com.passwordManager.services.PasswordService;
@@ -39,7 +40,7 @@ public class PasswordController {
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<?> deletePasswords(@RequestBody List<UUID> deletedPasswords){
+    public ResponseEntity<?> deletePasswords(@RequestBody DeletedPasswords deletedPasswords){
         return this.passwordService.deletePasswords(deletedPasswords);
     }
 }

@@ -1,5 +1,6 @@
 package br.com.passwordManager.services;
 
+import br.com.passwordManager.dto.requests.DeletedPasswords;
 import br.com.passwordManager.dto.responses.PasswordsResponse;
 import br.com.passwordManager.entities.PasswordEntity;
 import br.com.passwordManager.entities.UserEntity;
@@ -47,6 +48,7 @@ public class PasswordService {
         return ResponseEntity.ok(returnPageAbleList);
     }
 
+    @Transactional
     public ResponseEntity<?> insertPasswords(HttpHeaders httpHeaders, List<PasswordsResponse> newPasswords) {
 
         try{
@@ -76,8 +78,8 @@ public class PasswordService {
 
             List<PasswordEntity> updatedPasswordsEntites = new ArrayList<PasswordEntity>();
 
-            updatedPasswords.forEach(newPassword -> {
-                updatedPasswordsEntites.add(new PasswordEntity(UUID.randomUUID(), cyptography.encrypt(newPassword.getValue()), user));
+            updatedPasswords.forEach(updatedPassword -> {
+                updatedPasswordsEntites.add(new PasswordEntity(updatedPassword.getId(), cyptography.encrypt(updatedPassword.getValue()), user));
             });
 
             this.passwordRepository.saveAll(updatedPasswordsEntites);
@@ -89,9 +91,9 @@ public class PasswordService {
     }
 
     @Transactional
-    public ResponseEntity<?> deletePasswords(List<UUID> deletedPasswords) {
+    public ResponseEntity<?> deletePasswords(DeletedPasswords deletedPasswords) {
         try{
-            this.passwordRepository.deleteAllById(deletedPasswords);
+            this.passwordRepository.deleteAllById(deletedPasswords.getDeletedPasswords());
             return ResponseEntity.ok().build();
         }catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());

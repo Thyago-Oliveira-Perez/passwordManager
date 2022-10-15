@@ -1,5 +1,5 @@
 import { CommonApi } from "./common.api";
-import { PasswordsResponse } from "../pages/passwordList/password.types";
+import { DeletedPasswords, PasswordsResponse } from "../pages/passwordList/password.types";
 
 export class PasswordApi extends CommonApi {
   constructor() {
@@ -18,7 +18,7 @@ export class PasswordApi extends CommonApi {
     return await this._update<PasswordsResponse[]>(updatedPassword, "/api/passwords/update");
   } 
 
-  public async deleteUserPasswords(deletedIds: string[]){
-    return await this._delete<string[]>(deletedIds, "api/passwords/delete");
+  public async deleteUserPasswords(deletedPasswords: DeletedPasswords){
+    return await this._delete<DeletedPasswords>(deletedPasswords, "/api/passwords/delete");
   }
 }

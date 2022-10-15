@@ -4,7 +4,6 @@ import { PasswordsResponse } from "../password.types";
 import { defaultTableProps } from "./defaultTable.types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import addIcon from "../../assets/add-icon.svg";
 
 export default function DefaultTable(props: defaultTableProps) {
   const [allSelected, setAllSelected] = useState(false);
@@ -36,15 +35,8 @@ export default function DefaultTable(props: defaultTableProps) {
     save: boolean,
     newValue?: string
   ) => {
-    if (!save) {
-      if (props.updatedPasswords.includes(item)) {
-        props.setUpdatedPasswords([...props.updatedPasswords, item]);
-      } else {
-        var aux = props.updatedPasswords.filter((e) => e.id != item.id);
-        props.setUpdatedPasswords(aux);
-      }
-    } else {
-      const updatedItems = props.updatedPasswords.map((e) => {
+    if (save) {
+      const updatedItems = props.mainList.map((e) => {
         if (e.id === item.id) {
           newValue != undefined ? (e.value = newValue) : (e.value = item.value);
           return e;
@@ -52,11 +44,18 @@ export default function DefaultTable(props: defaultTableProps) {
         return e;
       });
       props.setUpdatedPasswords(updatedItems);
+    } else {
+      if (!props.updatedPasswords.includes(item)) {
+        props.setUpdatedPasswords([...props.updatedPasswords, item]);
+      } else {
+        var aux = props.updatedPasswords.filter((e) => e.id != item.id);
+        props.setUpdatedPasswords(aux);
+      }
     }
   };
 
   const handleDeletedItems = (id: string) => {
-    props.setDelete([...props.deletedList, id]);
+    props.setDelete({deletedPasswords: props.deletedList.deletedPasswords.concat(id)});
   };
 
   const handleAddItem = () => {
@@ -85,7 +84,7 @@ export default function DefaultTable(props: defaultTableProps) {
             <th>Actions</th>
             <th></th>
             <th className="h-6 w-6">
-              <img onClick={() => handleAddItem()} src={addIcon} alt="" />
+              <img onClick={() => handleAddItem()} src="add-icon.svg" alt="" />
             </th>
           </tr>
         </thead>

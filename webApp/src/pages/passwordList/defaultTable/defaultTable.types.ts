@@ -1,5 +1,5 @@
 import React from "react";
-import { PasswordsResponse } from "../password.types";
+import { DeletedPasswords, PasswordsResponse } from "../password.types";
 
 export interface defaultTableProps {
   mainList: PasswordsResponse[];
@@ -8,6 +8,6 @@ export interface defaultTableProps {
   setNewPasswords: React.Dispatch<React.SetStateAction<PasswordsResponse[]>>;
   updatedPasswords: PasswordsResponse[];
   setUpdatedPasswords: React.Dispatch<React.SetStateAction<PasswordsResponse[]>>;
-  deletedList: string[];
-  setDelete: React.Dispatch<React.SetStateAction<string[]>>;
+  deletedList: DeletedPasswords;
+  setDelete: React.Dispatch<React.SetStateAction<DeletedPasswords>>;
 }
