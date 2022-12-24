@@ -2,7 +2,7 @@ import FormLogin from "./components/formLogin";
 import {
   LoginRequest,
   LoginResponse,
-} from "./components/formLogin/formLogin.types";
+} from "./components/formLogin/types";
 import { useState } from "react";
 import { UserApi } from "../../api/user.api";
 import AuthService from "../../services/auth.service";

@@ -1,7 +1,7 @@
 import { Checkbox, TextField } from "@mui/material";
 import { useState } from "react";
-import { PasswordsResponse } from "../password.types";
-import { defaultTableProps } from "./defaultTable.types";
+import { PasswordsResponse } from "../types";
+import { defaultTableProps } from "./types";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 

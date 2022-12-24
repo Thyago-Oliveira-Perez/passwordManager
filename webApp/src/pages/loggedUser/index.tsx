@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserApi } from "../../api/user.api";
 import FormDefault from "../../components/formeRegister";
-import { UpdateUserDatasRequest } from "../../components/formeRegister/formeRegister.types";
+import { UpdateUserDatasRequest } from "../../components/formeRegister/types";
 import AuthService from "../../services/auth.service";
 
 export default function LoggedUser() {

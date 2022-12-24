@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { PasswordApi } from "../../api/passwords.api";
-import { DeletedPasswords, PasswordsResponse } from "./password.types";
+import { DeletedPasswords, PasswordsResponse } from "./types";
 import DefaultTable from "./defaultTable";
 import { Button } from "@mui/material";
 import { PasswordRounded } from "@mui/icons-material";

@@ -6,6 +6,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "react-router-dom";
 import AuthService from "../../services/auth.service";
 import { useEffect, useState } from "react";
+import HeaderItem from "./components/headerItem";
 
 export default function Header() {
   const authService = new AuthService();
@@ -24,49 +25,35 @@ export default function Header() {
   return (
     <header className="flex items-center justify-between h-20 w-auto bg-slate-800">
       <div className="w-1/2">
-        <ul className="flex justify-start px-12">
-          <li className="m-3">
-            <Link to="/">
-              <HomeRoundedIcon />
-              Home
-            </Link>
-          </li>
+        <div className="flex justify-start px-12">
+          <HeaderItem text={"Home"} path={"/"}>
+            <HomeRoundedIcon />
+          </HeaderItem>
           {userPerfil !== "" ? (
-            <li className="m-3">
-              <Link to={"/my-passwords"}>
-                <KeyIcon />
-                {"My Password"}
-              </Link>
-            </li>
+            <HeaderItem text={"My Password"} path={"/my-passwords"}>
+              <KeyIcon />
+            </HeaderItem>
           ) : null}
-        </ul>
+        </div>
       </div>
       <div className="w-1/2">
-        <ul className="flex justify-end px-12">
+        <div className="flex justify-end px-12">
           {userPerfil !== "" ? (
             <>
-              <li className="m-3">
-                <Link to={"/" + userPerfil}>
-                  <PersonSharpIcon />
-                  {userPerfil}
-                </Link>
-              </li>
-              <li className="m-3">
-                <Link to={"/"} onClick={() => handleLogout()}>
-                  <LogoutIcon />
-                  {"Logout"}
-                </Link>
-              </li>
+              <HeaderItem text={userPerfil} path={`/${userPerfil}`}>
+                <PersonSharpIcon />
+              </HeaderItem>
+
+              <HeaderItem text={"Logout"} path={"/"} onClick={() => handleLogout()}>
+                <LogoutIcon />
+              </HeaderItem>
             </>
           ) : (
-            <li className="m-3">
-              <Link to={"/login"}>
-                <PersonSharpIcon />
-                {"Login"}
-              </Link>
-            </li>
+            <HeaderItem text={"Login"} path={"/login"}>
+              <PersonSharpIcon style={{ color: "white" }} />
+            </HeaderItem>
           )}
-        </ul>
+        </div>
       </div>
     </header>
   );

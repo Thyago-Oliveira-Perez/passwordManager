@@ -1,5 +1,5 @@
 import React from "react";
-import { DeletedPasswords, PasswordsResponse } from "../password.types";
+import { DeletedPasswords, PasswordsResponse } from "../types";
 
 export interface defaultTableProps {
   mainList: PasswordsResponse[];

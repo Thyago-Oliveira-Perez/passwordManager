@@ -2,15 +2,15 @@ import { CommonApi } from "./common.api";
 import {
   LoginRequest,
   LoginResponse,
-} from "../pages/login/components/formLogin/formLogin.types";
+} from "../pages/login/components/formLogin/types";
 
 import {
   RegisterRequest,
   RegisterResponse,
   UpdateUserDatasRequest,
   UpdateUserDatasResponse,
-} from "../components/formeRegister/formeRegister.types";
-import { UserResponse } from "../pages/loggedUser/loggedUser.types";
+} from "../components/formeRegister/types";
+import { UserResponse } from "../pages/loggedUser/types";
 
 export class UserApi extends CommonApi {
   constructor() {

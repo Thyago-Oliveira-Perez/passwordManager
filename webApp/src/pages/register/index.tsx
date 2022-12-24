@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { UserApi } from "../../api/user.api";
 import FormDefault from "../../components/formeRegister";
-import { RegisterRequest } from "../../components/formeRegister/formeRegister.types";
+import { RegisterRequest } from "../../components/formeRegister/types";
 
 export default function RegisterPage() {
   const userApi = new UserApi();
@@ -24,7 +24,7 @@ export default function RegisterPage() {
         object={registerObj}
         setObject={setRegisterObj}
         function={() => register()}
-        tittle={"Register Account"}
+        title={"Register Account"}
       />
     </div>
   );

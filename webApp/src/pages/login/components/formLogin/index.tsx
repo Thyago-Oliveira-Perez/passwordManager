@@ -1,6 +1,6 @@
 import { TextField, Button } from "@mui/material";
 import { Link } from "react-router-dom";
-import { FormLoginTypes } from "./formLogin.types";
+import { FormLoginTypes } from "./types";
 
 export default function FormLogin(props: FormLoginTypes) {
   return (

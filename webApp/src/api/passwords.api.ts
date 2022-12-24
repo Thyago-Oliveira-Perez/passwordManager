@@ -1,5 +1,5 @@
 import { CommonApi } from "./common.api";
-import { DeletedPasswords, PasswordsResponse } from "../pages/passwordList/password.types";
+import { DeletedPasswords, PasswordsResponse } from "../pages/passwordList/types";
 
 export class PasswordApi extends CommonApi {
   constructor() {

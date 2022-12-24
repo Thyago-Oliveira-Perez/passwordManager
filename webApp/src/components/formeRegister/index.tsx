@@ -1,5 +1,5 @@
 import { Button, TextField } from "@mui/material";
-import { FormDefaultTypes } from "./formeRegister.types";
+import { FormDefaultTypes } from "./types";
 
 export default function FormDefault(props: FormDefaultTypes) {
   return (
