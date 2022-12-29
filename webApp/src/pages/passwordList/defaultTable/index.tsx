@@ -55,7 +55,9 @@ export default function DefaultTable(props: defaultTableProps) {
   };
 
   const handleDeletedItems = (id: string) => {
-    props.setDelete({deletedPasswords: props.deletedList.deletedPasswords.concat(id)});
+    props.setDelete({
+      deletedPasswords: props.deletedList.deletedPasswords.concat(id),
+    });
   };
 
   const handleAddItem = () => {
@@ -73,47 +75,48 @@ export default function DefaultTable(props: defaultTableProps) {
       <table className="w-full">
         <thead>
           <tr>
-            <th>
+            <th className="w-1/3">
               <Checkbox
                 checked={allSelected}
                 onClick={() => onSelectAllItems()}
               />
             </th>
-            <th>Password</th>
-            <th></th>
-            <th>Actions</th>
-            <th></th>
-            <th className="h-6 w-6">
-              <img onClick={() => handleAddItem()} src="add-icon.svg" alt="" />
-            </th>
+
+            <th className="w-1/3">Password</th>
+
+            <th className="w-1/3">Actions</th>
           </tr>
         </thead>
         <tbody>
           {props.mainList.map((item, index) => {
             return (
               <tr key={item.id}>
-                <td>
+
+                <th className="w-1/3">
                   <Checkbox
                     checked={selectedItems.includes(item)}
                     onClick={() => handleSelectedItems(item)}
                   />
-                </td>
-                <td>
-                  <TextField
+                </th>
+
+                <th className="w-1/3">
+                  <input
+                    type="text"
                     disabled={!props.updatedPasswords.includes(item)}
                     defaultValue={item.value}
                     onChange={(e) =>
                       handleEditedItems(item, true, e.target.value)
                     }
+                    className="text-center"
                   />
-                </td>
-                <td></td>
-                <td>
-                  <EditIcon onClick={() => handleEditedItems(item, false)} />
-                </td>
-                <td>
-                  <DeleteIcon onClick={() => handleDeletedItems(item.id)} />
-                </td>
+                </th>
+
+                <th className="w-1/3">
+                  <div className="flex flex-row items-center justify-center gap-10">
+                    <EditIcon onClick={() => handleEditedItems(item, false)} />
+                    <DeleteIcon onClick={() => handleDeletedItems(item.id)} />
+                  </div>
+                </th>
               </tr>
             );
           })}
