@@ -4,7 +4,7 @@ import HomePage from "./pages/homePage";
 import LoginPage from "./pages/login";
 import Header from "./components/header";
 import RegisterPage from "./pages/register";
-import LoggedUser from "./pages/loggedUser";
+import LoggedUser from "./pages/userInfos";
 import AuthService from "./services/auth.service";
 import PasswordList from "./pages/passwordList";
 

@@ -1,0 +1,11 @@
+{
+  "texts": {
+    "homePage": {
+      "title": "The best way to protect and keep yours passwords safety!",
+      "section1": {
+        "title": "What is a password manager?",
+        "text": "A password manager is a software application that helps a user store and manage passwords securely. It typically involves creating a master password that grants access to the password manager itself, and then allowing the user to store individual passwords for various accounts and websites in a secure, encrypted manner. The user can then use the password manager to automatically log in to these accounts and websites, rather than having to remember and enter each password manually. Some password managers also include additional features such as the ability to generate strong, unique passwords for new accounts, and to monitor for security breaches or suspicious activity on the user's accounts. Some password managers are integrated into web browsers, while others are standalone applications that can be accessed across multiple devices."
+      }
+    }
+  }
+}

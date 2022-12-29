@@ -31,9 +31,9 @@ public class Seed implements ApplicationListener<ContextRefreshedEvent> {
             UserEntity user = new UserEntity();
 
             user.setId(UUID.randomUUID());
-            user.setName("DefaultUser");
+            user.setName("root");
             user.setEmail("default@gmail.com");
-            user.setPassword(senha.encode("123"));
+            user.setPassword(senha.encode("root"));
 
             this.usersRepository.save(user);
 

@@ -10,7 +10,7 @@ import {
   UpdateUserDatasRequest,
   UpdateUserDatasResponse,
 } from "../components/formeRegister/types";
-import { UserResponse } from "../pages/loggedUser/types";
+import { UserResponse } from "../pages/userInfos/types";
 
 export class UserApi extends CommonApi {
   constructor() {
