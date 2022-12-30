@@ -72,56 +72,35 @@ export default function DefaultTable(props: defaultTableProps) {
 
   return (
     <div className="w-3/5">
-      <table className="w-full">
-        <thead>
-          <tr>
-            <th className="w-1/3">
-              <Checkbox
-                checked={allSelected}
-                onClick={() => onSelectAllItems()}
-              />
-            </th>
-
-            <th className="w-1/3">Password</th>
-
-            <th className="w-1/3">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {props.mainList.map((item, index) => {
-            return (
-              <tr key={item.id}>
-
-                <th className="w-1/3">
-                  <Checkbox
-                    checked={selectedItems.includes(item)}
-                    onClick={() => handleSelectedItems(item)}
-                  />
-                </th>
-
-                <th className="w-1/3">
-                  <input
-                    type="text"
-                    disabled={!props.updatedPasswords.includes(item)}
-                    defaultValue={item.value}
-                    onChange={(e) =>
-                      handleEditedItems(item, true, e.target.value)
-                    }
-                    className="text-center"
-                  />
-                </th>
-
-                <th className="w-1/3">
-                  <div className="flex flex-row items-center justify-center gap-10">
-                    <EditIcon onClick={() => handleEditedItems(item, false)} />
-                    <DeleteIcon onClick={() => handleDeletedItems(item.id)} />
-                  </div>
-                </th>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <ul>
+        {props.mainList.map((item, index) => {
+          return (
+            <li key={item.id} className="rounded-md border-solid border-2 border-zinc-200 mb-10">
+              <div>
+                <Checkbox
+                  checked={selectedItems.includes(item)}
+                  onClick={() => handleSelectedItems(item)}
+                />
+              </div>
+              <div>
+                <input
+                  type="text"
+                  disabled={!props.updatedPasswords.includes(item)}
+                  defaultValue={item.value}
+                  onChange={(e) =>
+                    handleEditedItems(item, true, e.target.value)
+                  }
+                  className="text-center"
+                />
+              </div>
+              <div className="flex flex-row items-center justify-center gap-10">
+                <EditIcon onClick={() => handleEditedItems(item, false)} />
+                <DeleteIcon onClick={() => handleDeletedItems(item.id)} />
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }

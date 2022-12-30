@@ -54,7 +54,7 @@ export default function PasswordList() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-screen">
+    <div className="flex flex-col items-center justify-center w-screen h-auto mt-16">
       <DefaultTable
         mainList={userPasswords}
         setMainList={setUserPasswords}
