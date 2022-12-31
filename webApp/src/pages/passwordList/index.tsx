@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { PasswordApi } from "../../api/passwords.api";
 import { DeletedPasswords, PasswordsResponse } from "./types";
-import DefaultTable from "./defaultTable";
 import { Button } from "@mui/material";
 import { PasswordRounded } from "@mui/icons-material";
+import DefaultTable from "../../components/defaultList";
 
 export default function PasswordList() {
   const passwordApi = new PasswordApi();
